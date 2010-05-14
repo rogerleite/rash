@@ -9,11 +9,11 @@ configure do
   Hashtag = "rash"
   TwitterSearchUrl = "http://search.twitter.com/search.atom?q=%23"
   Footer = "blah blah, blah."
-  set_option :haml, :format => :html4
+  set :haml, :format => :html4
 end
 
 get '/' do
-  header 'Content-Type' => 'text/html; charset=utf-8'
+  response['Content-Type'] = 'text/html; charset=utf-8'
   tag = params[:tag] || Hashtag
   @introduction = "Welcome! To display your tweets here, just put the <a href='http://hashtags.org/'>hashtag</a> <strong>##{tag}</strong> in your tweets. Enjoy."
   pf = FeedParser.parse(TwitterSearchUrl + tag)
@@ -22,11 +22,11 @@ get '/' do
 end
 
 get '/rash.css' do
-  header 'Content-Type' => 'text/css; charset=utf-8'
+  response['Content-Type'] = 'text/css; charset=utf-8'
   sass :stylesheet
 end
 
-use_in_file_templates!
+enable :inline_templates
 
 __END__
 @@ layout
